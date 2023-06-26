@@ -10852,4 +10852,21 @@ textarea.form-control-lg {
   background-repeat: no-repeat;
 }
 
+.text-truncate-container {
+  width: 171px;
+}
+
+.text-truncate {
+  -webkit-line-clamp: 4;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  white-space: pre-wrap;
+  text-align: justify;
+}
+
+.color-place-holder::placeholder {
+  color: white;
+  opacity: 1;
+}
+
 /*# sourceMappingURL=style.css.map */
