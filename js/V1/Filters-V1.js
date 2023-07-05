@@ -35,7 +35,7 @@ class Filters extends StringUtils {
     _handleFilterClick(filterTemplate, template) {
         if (this._$wrapperTags.childElementCount == 0) {
             this._$wrapperTags.classList.add('mt-4')
-        } 
+        }
 
         const tagTxt = template.textContent;
         const $wrapper = filterTemplate.createTagCardV1(tagTxt);
@@ -59,10 +59,22 @@ class Filters extends StringUtils {
 
     _clearFilterAndReset(filterData, $wrapperFilter, filterType) {
         $wrapperFilter.innerHTML = "";
+        const errorMsg = () => {
+            $wrapperFilter.innerHTML = "Aucun filtre disponible"
+            $wrapperFilter.classList.add('ms-1')
+            $wrapperFilter.classList.add('mb-2')
+        }
+
+        const removeErrorMsgClass = () => {
+            $wrapperFilter.classList.remove('ms-1')
+            $wrapperFilter.classList.remove('mb-2')
+        }
 
         if (filterData.length < 1) {
-            $wrapperFilter.innerHTML = "Aucun filtre disponible"
+            errorMsg()
         } else {
+           removeErrorMsgClass()
+
             filterData.forEach(filter => {
                 const filterTemplate = new FilterTemplate(filterType, filter);
 

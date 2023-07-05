@@ -53,8 +53,16 @@ class RecipeCard {
     }
 
     createRecipeCard() {
-        const $wrapper = document.createElement('div');
-        $wrapper.classList.add('col');
+        const $wrapper = document.createElement('article');
+        $wrapper.classList.add('card');
+        $wrapper.classList.add('overflow-hidden');
+        $wrapper.classList.add('rounded-21');
+        $wrapper.classList.add('border-0');
+        $wrapper.classList.add('shadow');
+        $wrapper.classList.add('px-0');
+
+        $wrapper.style.width = "23.75rem";
+        $wrapper.style.height = "45.69rem";
 
         const ingredients = this._recipe.ingredients.map(ingredient => `
         <div class="col">
@@ -65,13 +73,11 @@ class RecipeCard {
         const ingredientsHTML = ingredients.join('');
 
         const card = `
-            <article class="card overflow-hidden rounded-21 border-0 shadow" style ="width: 23.75rem; height:45.69rem;">
-
                 <p class="rounded-pill bg-primary p-2 position-absolute top-2 end-5 fs-12">${this._recipe.time}min</p>
 
                 <img src="public/assets/img/recipes/${this._recipe.image}" class="card-img-top object-fit-cover" style="height: 15.81rem" alt="...">
 
-                    <div class="card-body">
+                    <div class="card-body px-3">
                         <h2 class="card-title font-accent fs-18 mt-4">${this._recipe.name}</h2>
 
                         <h3 class="text-uppercase fw-bold text-secondary fs-12 mt-4 mb-3">recette</h3>
@@ -82,7 +88,6 @@ class RecipeCard {
                             ${ingredientsHTML}
                         </div>
                     </div>
-            </article>
         `
 
         $wrapper.innerHTML = card;

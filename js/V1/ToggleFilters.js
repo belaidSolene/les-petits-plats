@@ -42,8 +42,27 @@ class ToggleFilters {
         this._openFilter = filter
         this._btnOpenFilter = btn
         this._openWrapper = $wrapper
+        this._$wrapperFilter = this._openWrapper.querySelector('.row.row-cols-3')
+        this._countFilterAvailable = this._$wrapperFilter.childElementCount
 
-        this._openWrapper.classList.add('col-6')
+        switch (this._countFilterAvailable) {
+            case 0:
+            case 1:
+                this._openWrapper.classList.add('col-3')
+                break;
+
+            case 2:
+                this._openWrapper.classList.add('col-4')
+                this._$wrapperFilter.classList.remove('row-cols-3')
+                this._$wrapperFilter.classList.add('row-cols-2')
+                break;
+
+            default:
+                this._openWrapper.classList.add('col-6')
+                break;
+        }
+
+        this._openWrapper.classList.add('me-3')
 
         this._btnOpenFilter.classList.add('d-none')
         this._openFilter.classList.remove('d-none')
@@ -54,7 +73,22 @@ class ToggleFilters {
     _hide() {
         this._active = false;
 
-        this._openWrapper.classList.remove('col-6')
+        switch (this._countFilterAvailable) {
+            case 0:
+            case 1:
+                this._openWrapper.classList.remove('col-3')
+                break;
+
+            case 2:
+                this._openWrapper.classList.remove('col-4')
+                this._$wrapperFilter.classList.remove('row-cols-2')
+                this._$wrapperFilter.classList.add('row-cols-3')
+                break;
+
+            default:
+                this._openWrapper.classList.remove('col-6')
+                break;
+        }
 
         this._btnOpenFilter.classList.remove('d-none')
         this._openFilter.classList.add('d-none')

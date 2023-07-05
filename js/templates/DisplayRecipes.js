@@ -29,6 +29,9 @@ class DisplayRecipes {
       this._errorMsg()
     }
 
+    const ghost = document.createElement('article')
+    this._$wrapperRecipes.appendChild(ghost)
+
     this._updateRecipesCount(recipesCount);
 
     this._filters.update(filtersData);
@@ -54,10 +57,12 @@ class DisplayRecipes {
         this._$wrapperRecipes.appendChild(template.createRecipeCardV1());
         this._updateFilters(recipe, filtersData, activeFilters);
       });
+      const ghost = document.createElement('article')
+      this._$wrapperRecipes.appendChild(ghost)
     } else {
       this._errorMsg()
     }
-    
+
     this._filters.update(filtersData);
   }
 

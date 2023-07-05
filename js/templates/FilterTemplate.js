@@ -41,6 +41,7 @@ class FilterTemplate {
         $wrapper.classList.add('card')
         $wrapper.classList.add(`bg-${this._filterType}`)
         $wrapper.classList.add('p-2')
+        $wrapper.classList.add('border-0')
         $wrapper.style = "height: 3rem; width: fit-content"
 
         $wrapper.innerHTML = `
