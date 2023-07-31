@@ -37,35 +37,6 @@ class DisplayRecipes {
     this._filters.update(filtersData);
   }
 
-  renderV1(recipes, activeFilters = new Map) {
-    this._reset()
-    const filtersData = this._initializeFilters();
-    let recipesCount = 0
-
-    if (recipes instanceof Map) {
-      recipesCount = recipes.size
-    } else if (recipes instanceof Array) {
-      recipesCount = recipes.length
-    } else {
-      throw new Error(`recipes must be a map or an array`)
-    }
-
-    // Is there any recipes to display ?
-    if (recipesCount > 0) {
-      recipes.forEach(recipe => {
-        const template = new RecipeCard(recipe);
-        this._$wrapperRecipes.appendChild(template.createRecipeCardV1());
-        this._updateFilters(recipe, filtersData, activeFilters);
-      });
-      const ghost = document.createElement('article')
-      this._$wrapperRecipes.appendChild(ghost)
-    } else {
-      this._errorMsg()
-    }
-
-    this._filters.update(filtersData);
-  }
-
   // Recipes not found
   _errorMsg() {
     const errorMsg = `
@@ -79,7 +50,6 @@ class DisplayRecipes {
   }
 
   _updateRecipesCount(recipesCount) {
-    console.log(`recipesCount : ${recipesCount}`);
     this._$wrapperRecipesCount.innerHTML = `${recipesCount < 10 ? `0${recipesCount}` : `${recipesCount}`} ${recipesCount > 0 ? "recettes" : "recette"}`;
   }
 
