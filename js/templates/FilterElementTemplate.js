@@ -1,9 +1,17 @@
-class FilterTemplate {
+/** 
+ * The FilterElementBuilder class represents a template for creating filter items and tag cards dynamically on the index.html page.
+ * It provides methods to generate HTML filter items and tag cards based on the filter type and data provided.
+ */
+ class FilterElementTemplate {
     constructor(filterType, data) {
         this._filterType = filterType
         this._data = data
     }
-
+    
+    /**
+     * Create a filter item for the specified filter type to be used within the filter dropdown.
+     * @returns {HTMLElement} - The list item element representing the filter item.
+     */
     createFilter() {
         const $wrapper = document.createElement('li');
         $wrapper.classList.add('list-group-item');
@@ -14,6 +22,10 @@ class FilterTemplate {
         return $wrapper
     }
 
+    /**
+     * Create a tag card for the specified filter data.
+     * @returns {HTMLElement} - The column div element representing the tag card.
+     */
     createTagCard() {
         const $wrapper = document.createElement('div')
         $wrapper.classList.add('col')

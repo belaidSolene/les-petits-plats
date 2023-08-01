@@ -1,6 +1,8 @@
+// The Recipe class reprensents a recipe with its associated data.
 class Recipe extends StringUtils{
     constructor(data) {
         super()
+        
         this._id = data.id;
         this._image = data.image;
         this._name = data.name;
@@ -12,12 +14,19 @@ class Recipe extends StringUtils{
         this._ustensils = data.ustensils;
     }
 
+    // Various getter methods to retrieve recipe data and apply string transformations.
+    // These methods make it easier to access and manipulate the recipe data.
+
+    // The normalize*** methods helps in case-insensitive searches and comparisons.
+    // The capitalize*** methods improves their display in the UI.
+
     get id() {
         return this._id;
     }
 
+    // Get the URL of the recipe's image.
     get image() {
-        return this._image;
+        return `./public/assets/img/recipes/${this._image}`;
     }
 
     get name() {

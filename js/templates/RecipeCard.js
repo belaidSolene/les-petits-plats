@@ -1,7 +1,13 @@
+// The RecipeCard class represents a recipe item and provides a method to display the recipe informations.
 class RecipeCard {
     constructor(recipe) {
         this._recipe = recipe;
     }
+
+    /**
+     * Create the HTML structure for the recipe card on the index.html page.
+     * @returns {HTMLElement} - The article element containing the recipe card content.
+     */
 
     createRecipeCard() {
         const $wrapper = document.createElement('article');
@@ -26,7 +32,7 @@ class RecipeCard {
         const card = `
                 <p class="rounded-pill bg-primary p-2 position-absolute top-2 end-5 fs-12">${this._recipe.time}min</p>
 
-                <img src="public/assets/img/recipes/${this._recipe.image}" class="card-img-top object-fit-cover" style="height: 15.81rem" alt="...">
+                <img src="${this._recipe.image}" class="card-img-top object-fit-cover" style="height: 15.81rem" alt="...">
 
                     <div class="card-body px-3">
                         <h2 class="card-title font-accent fs-18 mt-4">${this._recipe.name}</h2>

@@ -1,3 +1,20 @@
+/* 
+   This array contains a list of recipe objects, where each object represents a recipe with various informations.
+   
+   Each recipe object consists of the following properties:
+   - "id" (number): Unique identifier for the recipe.
+   - "image" (string): File name of the recipe image.
+   - "name" (string): Name of the recipe.
+   - "servings" (number): Number of servings the recipe yields.
+   - "ingredients" (array of objects): List of ingredients with their quantities and optional units.
+   - "time" (number): Preparation time in minutes for the recipe.
+   - "description" (string): Instructions to prepare the recipe.
+   - "appliance" (string): Name of the appliance used for the recipe.
+   - "ustensils" (array of strings): List of utensils required for the recipe.
+
+   Please note that this data is used for dynamic content display on the index.html page 
+   and is referenced by other classes and functions for generating recipe cards and filter functionalities.
+*/
 const recipesData = [
     {
         "id": 1,
