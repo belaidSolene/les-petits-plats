@@ -4,7 +4,7 @@
  * Each index contains all the available values as keys, and the corresponding value is an array of recipe IDs that are associated with that value.
  */
 class RecipesIndex {
-    constructor(recipes) {
+    constructor() {
         // Index for ingredients, appliances, and utensils
         this._ingredients = {}
         this._appliances = {}

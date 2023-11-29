@@ -95,7 +95,7 @@ class SearchRecipes extends StringUtils {
 
   /**
    * Remove a filter from the active filters index and update the displayed recipes accordingly.
-   * @param {string} filter - The filter value to be removed.
+   * @param {string} filter - The filter value has to be removed.
    */
   removeFilter(filter) {
     this._activeFiltersIndex.delete(filter)
