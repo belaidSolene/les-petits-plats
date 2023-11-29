@@ -55,19 +55,15 @@ class SearchRecipes extends StringUtils {
    * @private
    */
   _mainSearch(searchTerm) {
-    const filteredRecipes = [...this._allRecipes.values()].filter((recipe) => {
-      const normalizedSearch = this.normalizeString(searchTerm);
-      if (
-        recipe.normalizeName.includes(normalizedSearch) ||
-        recipe.normalizeDescription.includes(normalizedSearch)
-      ) {
-        return true;
-      }
+    const normalizedSearch = this.normalizeString(searchTerm);
 
-      return recipe.ingredients.some((ingredient) =>
-        ingredient.normalizeName.includes(normalizedSearch)
-      );
-    }
+    const filteredRecipes = Array.from(this._allRecipes.values()).filter(
+      ({ normalizeName, normalizeDescription, ingredients }) => 
+        normalizeName.includes(normalizedSearch) ||
+        normalizeDescription.includes(normalizedSearch) ||
+        ingredients.some((ingredient) =>
+          ingredient.normalizeName.includes(normalizedSearch)
+      )
     );
 
     return filteredRecipes.map((recipe) => recipe.id);

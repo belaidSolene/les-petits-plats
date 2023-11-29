@@ -35,7 +35,6 @@ class Filters extends StringUtils {
      * @example { ingredients: ['Salt', 'Sugar'], appliances: ['Oven', 'Blender'] }
      */
     update(filtersData) {
-        console.log(filtersData);
         this._$wrapperFiltersList.forEach($wrapperFilter => {
             const filterType = $wrapperFilter.id;
 
