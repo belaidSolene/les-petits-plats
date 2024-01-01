@@ -27,9 +27,23 @@ class SearchRecipes extends StringUtils {
     searchInput.addEventListener('input', () => {
       const searchValue = searchInput.value.trim();
 
+      const measureExecutionTime = (callback) => {
+        const start = performance.now();
+        callback();
+        const end = performance.now();
+        return end - start;
+      }
+
       if (searchValue.length >= 3) {
-        this._resultMainSearch = this._mainSearch(searchValue)
-        this._updateDisplayRecipes()
+        const timeTaken = measureExecutionTime(() => {
+          // Appeler la fonction à mesurer ici
+          this._resultMainSearch = this._mainSearch(searchValue)
+        });
+        console.log(`Temps d'exécution : ${timeTaken} millisecondes`);
+        
+          // Appeler la fonction à mesurer ici
+          this._updateDisplayRecipes()
+        
       } else if (searchValue == "") {
         this._resultMainSearch = [...this._allRecipes.keys()];
         this._updateDisplayRecipes()
@@ -133,13 +147,10 @@ class SearchRecipes extends StringUtils {
     let commonIds = []
     this._activeFiltersIndex.forEach((filterType, filter) => {
       const ids = this._recipesIndex[filterType][this.normalizeString(filter)];
-
-      if (commonIds.length === 0) {
-        commonIds = ids
-      } else {
-        commonIds = commonIds.filter(id => ids.includes(id))
-      }
+      
+      commonIds = commonIds.length === 0 ?ids : this._findCommonIds(commonIds, ids) 
     })
+
     return commonIds
   }
 }
