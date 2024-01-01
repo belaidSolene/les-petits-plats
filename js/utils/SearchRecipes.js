@@ -39,7 +39,7 @@ class SearchRecipes extends StringUtils {
           // Appeler la fonction à mesurer ici
           this._resultMainSearch = this._mainSearch(searchValue)
         });
-        console.log(`Temps d'exécution : ${timeTaken} millisecondes`);
+       // console.log(`Temps d'exécution : ${timeTaken} millisecondes`);
         
           // Appeler la fonction à mesurer ici
           this._updateDisplayRecipes()
@@ -117,12 +117,26 @@ class SearchRecipes extends StringUtils {
    * @private
    */
   _updateDisplayRecipes() {
-    const recipesFromIds = (recipesIds) => {
-      return recipesIds.map((id) => this._allRecipes.get(id));
+
+    const measureExecutionTime = (callback) => {
+      const start = performance.now();
+      callback();
+      const end = performance.now();
+      return end - start;
     }
 
-    const recipesIds = this._getRecipesFiltered()
-    this._displayRecipe.render(recipesFromIds(recipesIds), this._activeFiltersIndex)
+    const timeTaken = measureExecutionTime(() => {
+        // Appeler la fonction à mesurer ici
+
+      const recipesFromIds = (recipesIds) => {
+        return recipesIds.map((id) => this._allRecipes.get(id));
+      }
+      const recipesIds = this._getRecipesFiltered()
+
+      this._displayRecipe.render(recipesFromIds(recipesIds), this._activeFiltersIndex)
+    });
+    
+    console.log(`Temps d'exécution Display : ${timeTaken} millisecondes`);   
   }
 
   /**
