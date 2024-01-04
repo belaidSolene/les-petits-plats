@@ -36,7 +36,7 @@ class App {
     const displayRecipe = new DisplayRecipes(this.$wrapperRecipes, filters, this.$wrapperRecipesCount);
     
     // Render and display all the recipes initially.
-    displayRecipe.render(recipes);
+    displayRecipe.renderAll(recipes);
 
     // Initialize the main search input field to handle search events.
     searchRecipes.setupSearchInput(this.searchInput, displayRecipe);

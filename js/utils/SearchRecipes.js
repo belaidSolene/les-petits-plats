@@ -12,7 +12,7 @@ class SearchRecipes extends StringUtils {
     super()
     this._allRecipes = recipes;
     this._recipesIndex = recipesIndex;
-    this._activeFiltersIndex = new Map();
+   /*  this._activeFiltersIndex = new Map(); */
     this._resultMainSearch = [...this._allRecipes.keys()];
   }
 
@@ -22,65 +22,87 @@ class SearchRecipes extends StringUtils {
    * @param {DisplayRecipes} displayRecipe - An instance of the DisplayRecipes class to update the displayed recipes.
    */
   setupSearchInput(searchInput, displayRecipe) {
-    this._displayRecipe = displayRecipe;
+    this._displayRecipes = displayRecipe;
 
     searchInput.addEventListener('input', () => {
-      const searchValue = searchInput.value.trim();
-
-      const measureExecutionTime = (callback) => {
-        const start = performance.now();
-        callback();
-        const end = performance.now();
-        return end - start;
-      }
+      this._searchValue = searchInput.value;
+      const searchValue = this._searchValue.trim();
 
       if (searchValue.length >= 3) {
-        const timeTaken = measureExecutionTime(() => {
-          // Appeler la fonction à mesurer ici
-          this._resultMainSearch = this._mainSearch(searchValue)
-        });
-       // console.log(`Temps d'exécution : ${timeTaken} millisecondes`);
-        
-          // Appeler la fonction à mesurer ici
-          this._updateDisplayRecipes()
-        
+        this._resultMainSearch = this._mainSearch(searchValue);
       } else if (searchValue == "") {
         this._resultMainSearch = [...this._allRecipes.keys()];
-        this._updateDisplayRecipes()
+        this._updateDisplayRecipes();
       }
     });
 
-    const searchBtn = searchInput.nextElementSibling.querySelector('button')
+    const searchBtn = searchInput.nextElementSibling.querySelector('button');
 
     searchBtn.addEventListener('click', () => {
       const searchValue = searchInput.value.trim();
 
       if (searchValue != "") {
-        this._resultMainSearch = this._mainSearch(searchValue)
-        this._updateDisplayRecipes()
+        this._resultMainSearch = this._mainSearch(searchValue);
       }
     })
   }
 
   /**
-   * Perform a main search across all recipes to find recipes matching the search term in names, ingredients, or descriptions.
-   * @param {string} searchTerm - The search term provided by the user.
-   * @returns {number[]} - An array of recipe IDs that match the search term.
-   * @private
+   * Perform the main search and update the display.
+   * @param {string} searchTerm - The search term entered by the user.
    */
   _mainSearch(searchTerm) {
     const normalizedSearch = this.normalizeString(searchTerm);
+    let recipesFound = [];
+    let notFound = true;
 
-    const filteredRecipes = Array.from(this._allRecipes.values()).filter(
-      ({ normalizeName, normalizeDescription, ingredients }) => 
-        normalizeName.includes(normalizedSearch) ||
-        normalizeDescription.includes(normalizedSearch) ||
-        ingredients.some((ingredient) =>
-          ingredient.normalizeName.includes(normalizedSearch)
+    this._displayRecipes.reset();
+
+    this._allRecipes.forEach(recipe => {
+      if (this._doesRecipeMatchSearchTerm(recipe, normalizedSearch)) {
+        if (this._isRecipeValidWithFilters(recipe.id)) {
+          if (notFound) { notFound = false; }
+          recipesFound.push(recipe.id);
+          this._displayRecipes.render(recipe);
+        }
+      }
+    });
+
+    if (notFound) {
+      this._displayRecipes.errorMsg(this._searchValue);
+    }
+
+    this._displayRecipes.finishRender();
+
+    return recipesFound;
+  }
+
+  /**
+   * Check if the given recipe matches the search term.
+   * @param {Recipe} recipe - The recipe object to check.
+   * @param {string} searchTerm - The search term entered by the user.
+   * @returns {boolean} - True if the recipe matches the search term, false otherwise.
+   * @private
+   */
+  _doesRecipeMatchSearchTerm({normalizeDescription, ingredients, normalizeName}, searchTerm) {
+    return (
+      normalizeName.includes(searchTerm) ||
+      normalizeDescription.includes(searchTerm) ||
+      ingredients.some((ingredient) =>
+        ingredient.normalizeName.includes(searchTerm)
       )
     );
+  }
 
-    return filteredRecipes.map((recipe) => recipe.id);
+  /**
+   * Checks whether the given recipe is valid based on the current filters.
+   * @param {Recipe} recipe - The recipe object to check against the filters
+   * @returns {boolean} - Returns true if the recipe is valid with the filters, otherwise returns false.
+   * @private
+   */
+  _isRecipeValidWithFilters(idRecipe) {
+    return this._recipeIdsMatchingFilters().length > 0
+      ? this._recipeIdsMatchingFilters().includes(idRecipe) : true;
   }
 
   /**
@@ -90,26 +112,18 @@ class SearchRecipes extends StringUtils {
    * @param {string} filter - The specific filter value selected by the user.
    */
   searchByFilter(filterType, filter) {
-    this._addFilter(filterType, filter);
+    this._displayRecipes.addFilter(filterType, filter);
     this._updateDisplayRecipes();
   }
 
-  /**
-   * Adds a new filter to the active filters index, associating it with its filter type.
-   * @param {string} filterType - The type of filter (e.g., "ingredients", "appliances", "ustensils").
-   * @param {string} filter - The specific filter value to be added.
-   */
-  _addFilter(filterType, filter) {
-    this._activeFiltersIndex.set(filter, filterType)
-  }
 
   /**
    * Remove a filter from the active filters index and update the displayed recipes accordingly.
    * @param {string} filter - The filter value has to be removed.
    */
   removeFilter(filter) {
-    this._activeFiltersIndex.delete(filter)
-    this._updateDisplayRecipes()
+    this._displayRecipes.activeFilters.delete(filter);
+    this._updateDisplayRecipes();
   }
 
   /**
@@ -117,39 +131,18 @@ class SearchRecipes extends StringUtils {
    * @private
    */
   _updateDisplayRecipes() {
+    this._displayRecipes.reset();
+    const idsByFilters = this._recipeIdsMatchingFilters()
 
-    const measureExecutionTime = (callback) => {
-      const start = performance.now();
-      callback();
-      const end = performance.now();
-      return end - start;
-    }
-
-    const timeTaken = measureExecutionTime(() => {
-        // Appeler la fonction à mesurer ici
-
-      const recipesFromIds = (recipesIds) => {
-        return recipesIds.map((id) => this._allRecipes.get(id));
-      }
-      const recipesIds = this._getRecipesFiltered()
-
-      this._displayRecipe.render(recipesFromIds(recipesIds), this._activeFiltersIndex)
-    });
-    
-    console.log(`Temps d'exécution Display : ${timeTaken} millisecondes`);   
-  }
-
-  /**
-   * Get the IDs of recipes that match both the main search and active filters.
-   * @returns {number[]} - An array of recipe IDs that match both the main search and active filters.
-   * @private
-   */
-  _getRecipesFiltered() {
-    const idsByFilters = this._idsByFilters()
-
-    return idsByFilters.length > 0
+    const ids = idsByFilters.length > 0
       ? this._resultMainSearch.filter((value) => idsByFilters.includes(value))
       : this._resultMainSearch
+
+    ids.forEach(idRecipe => {
+      this._displayRecipes.render(this._allRecipes.get(idRecipe));
+    })
+
+    this._displayRecipes.finishRender();
   }
 
   /**
@@ -157,13 +150,13 @@ class SearchRecipes extends StringUtils {
    * @returns {number[]} - An array of recipe IDs that match all the active filters.
    * @private
    */
-  _idsByFilters() {
-    let commonIds = []
-    this._activeFiltersIndex.forEach((filterType, filter) => {
+  _recipeIdsMatchingFilters() {
+    let commonIds = [];
+
+    this._displayRecipes.activeFilters.forEach((filterType, filter) => {
       const ids = this._recipesIndex[filterType][this.normalizeString(filter)];
-      
-      commonIds = commonIds.length === 0 ?ids : this._findCommonIds(commonIds, ids) 
-    })
+      commonIds = commonIds.length === 0 ? ids : commonIds.filter(id => ids.includes(id));
+    });
 
     return commonIds
   }

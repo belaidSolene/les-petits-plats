@@ -12,63 +12,69 @@ class DisplayRecipes {
     this._$wrapperRecipes = $wrapperRecipes;
     this._$wrapperRecipesCount = $wrapperRecipesCount;
     this._filters = filters;
+    this._activeFiltersIndex = new Map
   }
 
   /**
    * Render recipes on the index.html page and update the filter options.
-   * @param {Map|Array} recipes - A collection of Recipe objects to be displayed.
-   * @param {Map} activeFilters - A map containing the active filters selected by the user.
+   * @param {Map} recipes - A collection of Recipe objects to be displayed.
    */
-    render(recipes, activeFilters = new Map) {
-    this._reset()
-    const filtersData = this._initializeFilters();
-    let recipesCount = 0
+    renderAll(recipes) {
+    this.reset()
 
-    if (recipes instanceof Map) {
-      recipesCount = recipes.size
-    } else if (recipes instanceof Array) {
-      recipesCount = recipes.length
-    } else {
-      throw new Error(`recipes must be a map or an array`)
-    }
+    recipes.forEach((recipe) => {
+      this.render(recipe)
+    })
 
-    // Check if there are any recipes to display
-    if (recipesCount > 0) {
-      recipes.forEach(recipe => {
-        const template = new RecipeCard(recipe);
-        this._$wrapperRecipes.appendChild(template.createRecipeCard());
-        this._updateFilters(recipe, filtersData, activeFilters);
-      });
-    } else {
-      this._errorMsg()
-    }
+    this.finishRender();
+  }
 
+  /**
+   * Render a single recipe on the index.html page.
+   * @param {Recipe} recipe - The recipe object to be displayed.
+   * 
+   * 
+   * */
+  render(recipe) {
+    this._recipesCount++;
+    const template = new RecipeCard(recipe);
+    this._$wrapperRecipes.appendChild(template.createRecipeCard());
+    this._updateFilters(recipe);
+  }
+
+  /**
+   * Update the filter data based on the provided recipe and active filters.
+   * 
+   **/
+  finishRender() {
     // Add a ghost element to fix layout issues
     const ghost = document.createElement('article')
     this._$wrapperRecipes.appendChild(ghost)
 
-    this._updateRecipesCount(recipesCount);
+    this._updateRecipesCount();
 
-    this._filters.update(filtersData);
+    this._filters.update(this._filtersData);
   }
 
   /**
    * Display an error message when no recipes match the search criteria.
-   * @private
+   * 
    */
-  _errorMsg() {
-    const errorMsg = `
-      <p class="col-12 fs-18 fw-bold text-center"> Aucun recette ne correspond à votre recherche... vous pouvez chercher « tarte aux pommes », « poisson », etc. </p>
+  errorMsg(searchTerm="") {
+    const error= `
+      <p class="col-12 fs-18 fw-bold text-center"> Aucun recette ne correspond à ${searchTerm}... vous pouvez chercher « tarte aux pommes », « poisson », etc. </p>
     `
-    this._$wrapperRecipes.innerHTML = errorMsg;
+    this._$wrapperRecipes.innerHTML = error;
   }
 
   /**
-   * Reset the content of the wrapper element.
-   * @private
+   * Reset the content of the recipes wrapper element.
+   * 
    */
-  _reset() {
+  reset() {
     this._$wrapperRecipes.innerHTML = "";
+    this._recipesCount = 0;
+    this._filtersData = this._initializeFilters();
   }
 
   /**
@@ -76,8 +82,8 @@ class DisplayRecipes {
    * @param {number} recipesCount - The total count of recipes.
    * @private
    */
-  _updateRecipesCount(recipesCount) {
-    this._$wrapperRecipesCount.innerHTML = `${recipesCount < 10 ? `0${recipesCount}` : `${recipesCount}`} ${recipesCount > 0 ? "recettes" : "recette"}`;
+  _updateRecipesCount() {
+    this._$wrapperRecipesCount.innerHTML = `${this._recipesCount < 10 ? `0${this._recipesCount}` : `${this._recipesCount}`} ${this._recipesCount > 0 ? "recettes" : "recette"}`;
   }
 
   /**
@@ -94,26 +100,43 @@ class DisplayRecipes {
   }
 
   /**
+   * Adds a new filter to the active filters index, associating it with its filter type.
+   * @param {string} filterType - The type of filter (e.g., "ingredients", "appliances", "ustensils").
+   * @param {string} filter - The specific filter value to be added.
+   */
+  addFilter(filterType, filter) {
+    this._activeFiltersIndex.set(filter, filterType);
+  }
+
+  /**
+   * Get the active filters index.
+   * @returns {Map} - The active filters index.
+   * 
+   **/
+  get activeFilters() {
+    return this._activeFiltersIndex;
+  }
+
+  /**
    * Update the filter data based on the provided recipe and active filters.
    * @param {Recipe} recipe - The recipe object to be used for filter data update.
-   * @param {Object} filtersData - The current filter data containing arrays for ingredients, appliances, and utensils.
    * @param {Map} activeFilters - A map containing the active filters selected by the user.
    * @private
    */
-  _updateFilters(recipe, filtersData, activeFilters) {
+  _updateFilters(recipe) {
     recipe.ingredients.forEach(ingredient => {
-      if (!activeFilters.has(ingredient.capitalizeName) && !filtersData.ingredients.includes(ingredient.capitalizeName)) {
-        filtersData.ingredients.push(ingredient.capitalizeName);
+      if (!this._activeFiltersIndex.has(ingredient.capitalizeName) && !this._filtersData.ingredients.includes(ingredient.capitalizeName)) {
+       this._filtersData.ingredients.push(ingredient.capitalizeName);
       }
     })
 
-    if (!activeFilters.has(recipe.capitalizeAppliance) && !filtersData.appliances.includes(recipe.capitalizeAppliance)) {
-      filtersData.appliances.push(recipe.capitalizeAppliance);
+    if (!this._activeFiltersIndex.has(recipe.capitalizeAppliance) && !this._filtersData.appliances.includes(recipe.capitalizeAppliance)) {
+     this. _filtersData.appliances.push(recipe.capitalizeAppliance);
     }
 
     recipe.capitalizeUstensils.forEach(ustensil => {
-      if (!activeFilters.has(ustensil) && !filtersData.ustensils.includes(ustensil)) {
-        filtersData.ustensils.push(ustensil);
+      if (!this._activeFiltersIndex.has(ustensil) && !this._filtersData.ustensils.includes(ustensil)) {
+        this._filtersData.ustensils.push(ustensil);
       }
     });
   }

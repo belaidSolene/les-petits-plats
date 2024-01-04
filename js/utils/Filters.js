@@ -100,15 +100,23 @@ class Filters extends StringUtils {
      */
     _clearFilterAndReset(filterData, $wrapperFilter, filterType) {
         $wrapperFilter.innerHTML = "";
+        console.log(filterType, filterData);
 
-        filterData.forEach(filter => {
-            const filterElementTemplate = new FilterElementTemplate(filterType, filter);
-
+        if (filterData.length === 0) {
+            const txt = "Aucun filtre disponible"
+            const filterElementTemplate = new FilterElementTemplate(filterType, txt);
             const template = filterElementTemplate.createFilter();
-            template.addEventListener('click', () => this._handleFilterClick(filterElementTemplate, template));
-
             $wrapperFilter.appendChild(template);
-        });
+        } else {
+            filterData.forEach(filter => {
+                const filterElementTemplate = new FilterElementTemplate(filterType, filter);
+    
+                const template = filterElementTemplate.createFilter();
+                template.addEventListener('click', () => this._handleFilterClick(filterElementTemplate, template));
+    
+                $wrapperFilter.appendChild(template);
+            });
+        }
     }
 
     /**
