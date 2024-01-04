@@ -34,7 +34,7 @@ class Recipe extends StringUtils{
     }
 
     get normalizeName() {
-        return this.normalizeString(this.name)
+        return this.normalizeString(this.name);
     }
 
     get servings() {
@@ -54,7 +54,7 @@ class Recipe extends StringUtils{
     }
 
     get normalizeDescription() {
-        return this.normalizeString(this.description)
+        return this.normalizeString(this.description);
     }
 
     get appliance() {
@@ -62,11 +62,11 @@ class Recipe extends StringUtils{
     }
 
     get normalizeAppliance() {
-        return this.normalizeString(this.appliance)
+        return this.normalizeString(this.appliance);
     }
 
     get capitalizeAppliance() {
-        return this.capitalizeString(this.appliance)
+        return this.capitalizeString(this.appliance);
     }
 
     get ustensils() {
@@ -77,17 +77,17 @@ class Recipe extends StringUtils{
         const normalizeUstensils = []
         
         this.ustensils.forEach(ustensil => {
-            normalizeUstensils.push(this.normalizeString(ustensil))
+            normalizeUstensils.push(this.normalizeString(ustensil));
         });
 
         return normalizeUstensils;
     }
 
     get capitalizeUstensils() {
-        const capitalizeUstensils = []
+        const capitalizeUstensils = [];
         
         this._ustensils.forEach(ustensil => {
-            capitalizeUstensils.push(this.capitalizeString(ustensil))
+            capitalizeUstensils.push(this.capitalizeString(ustensil));
         });
 
         return capitalizeUstensils;

@@ -6,9 +6,9 @@
 class RecipesIndex {
     constructor() {
         // Index for ingredients, appliances, and utensils
-        this._ingredients = {}
-        this._appliances = {}
-        this._ustensils = {}
+        this._ingredients = {};
+        this._appliances = {};
+        this._ustensils = {};
     }
 
     /**
@@ -19,9 +19,9 @@ class RecipesIndex {
         const addRef = (id, array, ref) => {
 
             if (!array[ref]) {
-                array[ref] = []
+                array[ref] = [];
             }
-            array[ref].push(id)
+            array[ref].push(id);
         }
 
         recipes.forEach(recipe => {
@@ -29,15 +29,15 @@ class RecipesIndex {
 
             // Index recipes based on ingredients
             recipe.ingredients.forEach(ingredient => {
-                addRef(idRecipe, this._ingredients, ingredient.normalizeName)
+                addRef(idRecipe, this._ingredients, ingredient.normalizeName);
             });
 
             // Index recipes based on appliances
-            addRef(idRecipe, this._appliances, recipe.normalizeAppliance)
+            addRef(idRecipe, this._appliances, recipe.normalizeAppliance);
 
             // Index recipes based on ustensils
             recipe.normalizeUstensils.forEach(ustensil => {
-                addRef(idRecipe, this._ustensils, ustensil)
+                addRef(idRecipe, this._ustensils, ustensil);
             });
         });
     }
@@ -47,7 +47,7 @@ class RecipesIndex {
     }
 
     get appliances() {
-        return this._appliances
+        return this._appliances;
     }
 
     get ustensils() {

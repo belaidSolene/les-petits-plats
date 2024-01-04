@@ -4,8 +4,8 @@
  */
  class FilterElementTemplate {
     constructor(filterType, data) {
-        this._filterType = filterType
-        this._data = data
+        this._filterType = filterType;
+        this._data = data;
     }
     
     /**
@@ -19,7 +19,7 @@
         $wrapper.classList.add('px-1');
         $wrapper.innerText = this._data;
 
-        return $wrapper
+        return $wrapper;
     }
 
     /**
@@ -27,8 +27,8 @@
      * @returns {HTMLElement} - The column div element representing the tag card.
      */
     createTagCard() {
-        const $wrapper = document.createElement('div')
-        $wrapper.classList.add('col')
+        const $wrapper = document.createElement('div');
+        $wrapper.classList.add('col');
 
         $wrapper.innerHTML = `
             <div class="card">
@@ -37,15 +37,15 @@
                     <button type="button" class="btn-close" aria-label="Close"></button>
                 </div>
             </div>
-        `
+        `;
         return $wrapper;
     }
 
     get filterType() {
-        return this._filterType
+        return this._filterType;
     }
 
     get name() {
-        return this._data
+        return this._data;
     }
 }

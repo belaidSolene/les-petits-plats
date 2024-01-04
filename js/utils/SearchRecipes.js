@@ -12,7 +12,6 @@ class SearchRecipes extends StringUtils {
     super()
     this._allRecipes = recipes;
     this._recipesIndex = recipesIndex;
-   /*  this._activeFiltersIndex = new Map(); */
     this._resultMainSearch = [...this._allRecipes.keys()];
   }
 
@@ -132,11 +131,11 @@ class SearchRecipes extends StringUtils {
    */
   _updateDisplayRecipes() {
     this._displayRecipes.reset();
-    const idsByFilters = this._recipeIdsMatchingFilters()
+    const idsByFilters = this._recipeIdsMatchingFilters();
 
     const ids = idsByFilters.length > 0
       ? this._resultMainSearch.filter((value) => idsByFilters.includes(value))
-      : this._resultMainSearch
+      : this._resultMainSearch;
 
     ids.forEach(idRecipe => {
       this._displayRecipes.render(this._allRecipes.get(idRecipe));
@@ -158,6 +157,6 @@ class SearchRecipes extends StringUtils {
       commonIds = commonIds.length === 0 ? ids : commonIds.filter(id => ids.includes(id));
     });
 
-    return commonIds
+    return commonIds;
   }
 }

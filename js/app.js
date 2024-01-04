@@ -24,7 +24,7 @@ class App {
 
     // Create a RecipesIndex instance to generate indexes for each filter category (ingredients, appliances, and utensils).
     const recipesIndex = new RecipesIndex();
-    recipesIndex.init(recipes)
+    recipesIndex.init(recipes);
 
     // Create a SearchRecipes instance to manage the search functionality.
     const searchRecipes = new SearchRecipes(recipesIndex, recipes);

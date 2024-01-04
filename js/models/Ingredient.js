@@ -15,11 +15,11 @@ class Ingredient extends StringUtils {
     }
 
     get normalizeName() {
-        return this.normalizeString(this.name)
+        return this.normalizeString(this.name);
     }
 
     get capitalizeName() {
-        return this.capitalizeString(this.name)
+        return this.capitalizeString(this.name);
     }
 
     /*

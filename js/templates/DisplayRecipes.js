@@ -12,7 +12,7 @@ class DisplayRecipes {
     this._$wrapperRecipes = $wrapperRecipes;
     this._$wrapperRecipesCount = $wrapperRecipesCount;
     this._filters = filters;
-    this._activeFiltersIndex = new Map
+    this._activeFiltersIndex = new Map();
   }
 
   /**
@@ -20,10 +20,10 @@ class DisplayRecipes {
    * @param {Map} recipes - A collection of Recipe objects to be displayed.
    */
     renderAll(recipes) {
-    this.reset()
+    this.reset();
 
     recipes.forEach((recipe) => {
-      this.render(recipe)
+      this.render(recipe);
     })
 
     this.finishRender();
@@ -48,8 +48,8 @@ class DisplayRecipes {
    **/
   finishRender() {
     // Add a ghost element to fix layout issues
-    const ghost = document.createElement('article')
-    this._$wrapperRecipes.appendChild(ghost)
+    const ghost = document.createElement('article');
+    this._$wrapperRecipes.appendChild(ghost);
 
     this._updateRecipesCount();
 
@@ -63,7 +63,7 @@ class DisplayRecipes {
   errorMsg(searchTerm="") {
     const error= `
       <p class="col-12 fs-18 fw-bold text-center"> Aucun recette ne correspond à ${searchTerm}... vous pouvez chercher « tarte aux pommes », « poisson », etc. </p>
-    `
+    `;
     this._$wrapperRecipes.innerHTML = error;
   }
 

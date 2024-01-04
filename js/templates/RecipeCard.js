@@ -45,7 +45,7 @@ class RecipeCard {
                             ${ingredientsHTML}
                         </div>
                     </div>
-        `
+        `;
 
         $wrapper.innerHTML = card;
         return $wrapper;

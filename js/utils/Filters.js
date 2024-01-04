@@ -38,8 +38,8 @@ class Filters extends StringUtils {
         this._$wrapperFiltersList.forEach($wrapperFilter => {
             const filterType = $wrapperFilter.id;
 
-            this._clearFilterAndReset(filtersData[filterType], $wrapperFilter, filterType)
-            this._clearInput($wrapperFilter)
+            this._clearFilterAndReset(filtersData[filterType], $wrapperFilter, filterType);
+            this._clearInput($wrapperFilter);
 
             this._setupInputFilter($wrapperFilter, filtersData[filterType], filterType);
         });
@@ -100,10 +100,9 @@ class Filters extends StringUtils {
      */
     _clearFilterAndReset(filterData, $wrapperFilter, filterType) {
         $wrapperFilter.innerHTML = "";
-        console.log(filterType, filterData);
 
         if (filterData.length === 0) {
-            const txt = "Aucun filtre disponible"
+            const txt = "Aucun filtre disponible";
             const filterElementTemplate = new FilterElementTemplate(filterType, txt);
             const template = filterElementTemplate.createFilter();
             $wrapperFilter.appendChild(template);
@@ -135,7 +134,7 @@ class Filters extends StringUtils {
 
         $wrapperFilter.innerHTML = "";
         if (matchingValues.length > 0) {
-           this._clearFilterAndReset(matchingValues, $wrapperFilter, filterType)
+           this._clearFilterAndReset(matchingValues, $wrapperFilter, filterType);
         } else {
             // If no matching values found, display a message in the filter dropdown.
             $wrapperFilter.innerHTML = "Aucune valeur trouvée";
@@ -148,7 +147,7 @@ class Filters extends StringUtils {
      * @private
      */
     _clearInput($wrapperFilter) {
-        const input = this._getInput($wrapperFilter)
+        const input = this._getInput($wrapperFilter);
         input.value = ""
     }
 
@@ -159,6 +158,6 @@ class Filters extends StringUtils {
      * @private
      */
     _getInput($wrapperFilter) {
-        return $wrapperFilter.parentElement.parentElement.querySelector('input')
+        return $wrapperFilter.parentElement.parentElement.querySelector('input');
     }
 }
