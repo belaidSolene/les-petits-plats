@@ -59,9 +59,9 @@ class SearchRecipes extends StringUtils {
 
     this._allRecipes.forEach(recipe => {
       if (this._doesRecipeMatchSearchTerm(recipe, normalizedSearch)) {
+        recipesFound.push(recipe.id);
         if (this._isRecipeValidWithFilters(recipe.id)) {
           if (notFound) { notFound = false; }
-          recipesFound.push(recipe.id);
           this._displayRecipes.render(recipe);
         }
       }
