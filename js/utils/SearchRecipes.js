@@ -25,6 +25,9 @@ class SearchRecipes extends StringUtils {
 
     searchInput.addEventListener('input', () => {
       this._searchValue = searchInput.value;
+      try {
+      this.checkForHTMLTags(this._searchValue);
+
       const searchValue = this._searchValue.trim();
 
       if (searchValue.length >= 3) {
@@ -33,15 +36,24 @@ class SearchRecipes extends StringUtils {
         this._resultMainSearch = [...this._allRecipes.keys()];
         this._updateDisplayRecipes();
       }
+    } catch (error) {
+        console.error(error.message);
+        return;
+      }
     });
 
     const searchBtn = searchInput.nextElementSibling.querySelector('button');
 
     searchBtn.addEventListener('click', () => {
       const searchValue = searchInput.value.trim();
-
+      try {
+        this.checkForHTMLTags(searchValue);
       if (searchValue != "") {
         this._resultMainSearch = this._mainSearch(searchValue);
+      }
+    } catch (error) {
+        console.error(error.message);
+        return;
       }
     })
   }

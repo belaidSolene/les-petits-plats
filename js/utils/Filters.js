@@ -57,12 +57,18 @@ class Filters extends StringUtils {
 
         input.addEventListener('input', () => {
             const searchValue = input.value.trim();
+        try {
+            this.checkForHTMLTags(searchValue);
             if (searchValue === "") {
                 // Display all filters available when the input is empty.
                 this._clearFilterAndReset(filterData, $wrapperFilter, filterElementTemplate);
             } else {
                 this._filterAndDisplayMatchingValues(searchValue, filterData, $wrapperFilter, filterElementTemplate);
             }
+          } catch (error) {
+            console.error(error.message);
+            return;
+          }  
         });
     }
 

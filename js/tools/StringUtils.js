@@ -18,4 +18,12 @@ class StringUtils {
         // If the input string is empty or has zero length, return undefined.
         return undefined;
     }
+
+    // The checkForHTMLTags method checks if the given string contains HTML tags.
+    checkForHTMLTags(input) {
+        const regex = /<\/?[a-z][\s\S]*>/i;
+        if (regex.test(input)) {
+          throw new Error("L'insertion de balises HTML est interdite.");
+        }
+      }
 }
