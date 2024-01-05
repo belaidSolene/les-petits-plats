@@ -8,9 +8,10 @@ class DisplayRecipes {
    * @param {Filters} filters - An instance of the Filters class that handles filter functionality.
    * @param {HTMLElement} $wrapperRecipesCount - The wrapper element to display the count of recipes.
    */
-  constructor($wrapperRecipes, filters, $wrapperRecipesCount) {
+  constructor($wrapperRecipes, filters, $wrapperRecipesCount, $wrapperErrorMsg) {
     this._$wrapperRecipes = $wrapperRecipes;
     this._$wrapperRecipesCount = $wrapperRecipesCount;
+    this._$wrapperErrorMsg = $wrapperErrorMsg;
     this._filters = filters;
     this._activeFiltersIndex = new Map();
   }
@@ -60,11 +61,8 @@ class DisplayRecipes {
    * Display an error message when no recipes match the search criteria.
    * 
    */
-  errorMsg(searchTerm="") {
-    const error= `
-      <p class="col-12 fs-18 fw-bold text-center"> Aucun recette ne correspond à ${searchTerm}... vous pouvez chercher « tarte aux pommes », « poisson », etc. </p>
-    `;
-    this._$wrapperRecipes.innerHTML = error;
+  updateErrorMsg(searchTerm="") {
+    this._$wrapperErrorMsg.textContent = searchTerm === "" ?  "" :`Aucun recette ne correspond à ${searchTerm}... vous pouvez chercher « tarte aux pommes », « poisson », etc.`;
   }
 
   /**
@@ -75,6 +73,7 @@ class DisplayRecipes {
     this._$wrapperRecipes.innerHTML = "";
     this._recipesCount = 0;
     this._filtersData = this._initializeFilters();
+    this.updateErrorMsg()
   }
 
   /**

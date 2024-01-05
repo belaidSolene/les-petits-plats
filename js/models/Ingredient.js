@@ -1,7 +1,7 @@
 // The Ingredient class reprensents a ingredient with its associated data.
 class Ingredient extends StringUtils {
     constructor(data) {
-        super()
+        super();
         this._ingredient = data.ingredient;
         this._quantity = data.quantity;
         this._unit = data.unit;

@@ -1,7 +1,7 @@
 // The Recipe class reprensents a recipe with its associated data.
 class Recipe extends StringUtils{
     constructor(data) {
-        super()
+        super();
         
         this._id = data.id;
         this._image = data.image;
@@ -74,7 +74,7 @@ class Recipe extends StringUtils{
     }
 
     get normalizeUstensils() {
-        const normalizeUstensils = []
+        const normalizeUstensils = [];
         
         this.ustensils.forEach(ustensil => {
             normalizeUstensils.push(this.normalizeString(ustensil));

@@ -12,6 +12,7 @@ class SearchRecipes extends StringUtils {
     super()
     this._allRecipes = recipes;
     this._recipesIndex = recipesIndex;
+    this._resultFilterSearch = [];
     this._resultMainSearch = [...this._allRecipes.keys()];
   }
 
@@ -26,11 +27,11 @@ class SearchRecipes extends StringUtils {
     searchInput.addEventListener('input', () => {
       this._searchValue = searchInput.value;
       try {
-      this.checkForHTMLTags(this._searchValue);
+        this.checkForHTMLTags(this._searchValue);
 
-      const searchValue = this._searchValue.trim();
+        const searchValue = this._searchValue.trim();
 
-      if (searchValue.length >= 3) {
+        if (searchValue.length >= 3) {
         this._resultMainSearch = this._mainSearch(searchValue);
       } else if (searchValue == "") {
         this._resultMainSearch = [...this._allRecipes.keys()];
@@ -45,9 +46,10 @@ class SearchRecipes extends StringUtils {
     const searchBtn = searchInput.nextElementSibling.querySelector('button');
 
     searchBtn.addEventListener('click', () => {
-      const searchValue = searchInput.value.trim();
+      this._searchValue = searchInput.value;
       try {
         this.checkForHTMLTags(searchValue);
+        const searchValue = this._searchValue.trim();
       if (searchValue != "") {
         this._resultMainSearch = this._mainSearch(searchValue);
       }
@@ -72,7 +74,7 @@ class SearchRecipes extends StringUtils {
     this._allRecipes.forEach(recipe => {
       if (this._doesRecipeMatchSearchTerm(recipe, normalizedSearch)) {
         recipesFound.push(recipe.id);
-        if (this._isRecipeValidWithFilters(recipe.id)) {
+        if (this._isRecipeMatchingMainSearchAndFilter(recipe.id)) {
           if (notFound) { notFound = false; }
           this._displayRecipes.render(recipe);
         }
@@ -80,7 +82,7 @@ class SearchRecipes extends StringUtils {
     });
 
     if (notFound) {
-      this._displayRecipes.errorMsg(this._searchValue);
+      this._displayRecipes.updateErrorMsg(this._searchValue);
     }
 
     this._displayRecipes.finishRender();
@@ -111,9 +113,9 @@ class SearchRecipes extends StringUtils {
    * @returns {boolean} - Returns true if the recipe is valid with the filters, otherwise returns false.
    * @private
    */
-  _isRecipeValidWithFilters(idRecipe) {
-    return this._recipeIdsMatchingFilters().length > 0
-      ? this._recipeIdsMatchingFilters().includes(idRecipe) : true;
+  _isRecipeMatchingMainSearchAndFilter(idRecipe) {
+    return this._resultFilterSearch.length > 0
+      ? this._resultFilterSearch.includes(idRecipe) : true;
   }
 
   /**
@@ -124,6 +126,7 @@ class SearchRecipes extends StringUtils {
    */
   searchByFilter(filterType, filter) {
     this._displayRecipes.addFilter(filterType, filter);
+    this._resultFilterSearch = this._recipeIdsMatchingFilters();
     this._updateDisplayRecipes();
   }
 
@@ -134,6 +137,7 @@ class SearchRecipes extends StringUtils {
    */
   removeFilter(filter) {
     this._displayRecipes.activeFilters.delete(filter);
+    this._resultFilterSearch = this._recipeIdsMatchingFilters();
     this._updateDisplayRecipes();
   }
 
@@ -143,10 +147,9 @@ class SearchRecipes extends StringUtils {
    */
   _updateDisplayRecipes() {
     this._displayRecipes.reset();
-    const idsByFilters = this._recipeIdsMatchingFilters();
 
-    const ids = idsByFilters.length > 0
-      ? this._resultMainSearch.filter((value) => idsByFilters.includes(value))
+    const ids = this._resultFilterSearch.length > 0
+      ? this._resultMainSearch.filter((value) => this._resultFilterSearch.includes(value))
       : this._resultMainSearch;
 
     ids.forEach(idRecipe => {

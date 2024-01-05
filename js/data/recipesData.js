@@ -1790,4 +1790,4 @@ const recipesData = [
         "appliance": "Four",
         "ustensils":["rouleau à patisserie","fouet"]
     }
-]
+];

@@ -15,8 +15,9 @@
     createFilter() {
         const $wrapper = document.createElement('li');
         $wrapper.classList.add('list-group-item');
+        $wrapper.classList.add('px-0');
         $wrapper.classList.add('py-2');
-        $wrapper.classList.add('px-1');
+        $wrapper.classList.add('px-md-1');
         $wrapper.innerText = this._data;
 
         return $wrapper;
@@ -30,9 +31,10 @@
         const $wrapper = document.createElement('div');
         $wrapper.classList.add('col');
 
+
         $wrapper.innerHTML = `
             <div class="card">
-                <div class="card-body btn btn-primary d-flex align-items-center justify-content-between" style="height: 3.13rem;">
+                <div class="card-body fs-filter tag-height btn btn-primary p-1 d-flex align-items-center justify-content-between" >
                     ${this._data}            
                     <button type="button" class="btn-close" aria-label="Close"></button>
                 </div>

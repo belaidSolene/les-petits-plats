@@ -17,9 +17,8 @@ class RecipeCard {
         $wrapper.classList.add('border-0');
         $wrapper.classList.add('shadow');
         $wrapper.classList.add('px-0');
+        $wrapper.classList.add('recipe-size');
 
-        $wrapper.style.width = "23.75rem";
-        $wrapper.style.height = "45.69rem";
 
         const ingredients = this._recipe.ingredients.map(ingredient => `
         <div class="col">
@@ -38,7 +37,7 @@ class RecipeCard {
                         <h2 class="card-title font-accent fs-18 mt-4">${this._recipe.name}</h2>
 
                         <h3 class="text-uppercase fw-bold text-secondary fs-12 mt-4 mb-3">recette</h3>
-                        <p class="card-text overflow-hidden fr-14" style="height: 4.75rem">${this._recipe.description}</p>
+                        <p class="card-text overflow-hidden fs-14" style="height: 76px; line-height:19.12px">${this._recipe.description}</p>
 
                         <h3 class="text-uppercase text-secondary fw-bold fs-12 mt-4 mb-3">ingrédients</h3>
                         <div class="row row-cols-2 gy-2">

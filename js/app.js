@@ -5,8 +5,10 @@
 class App {
   constructor() {
     this.searchInput = document.querySelector('input[name="q"]');
-    this.$wrapperRecipes = document.querySelector("#recipes");
-    this.$wrapperRecipesCount = document.querySelector('#displayRecipesCount');
+    this.$wrapperRecipes = document.getElementById('recipes');
+    this.$wrapperRecipesCount = document.getElementById('displayRecipesCount');
+    this.$wrapperErrorMsg = document.getElementById('error-msg');
+
     
     // List of filters IDs
     this._filtersListsIds = ['ingredients', 'appliances', 'ustensils'];
@@ -33,7 +35,7 @@ class App {
     const filters = new Filters(this._filtersListsIds, 'tags', searchRecipes);
 
     // Create a DisplayRecipes instance to render and display the filtered recipes.
-    const displayRecipe = new DisplayRecipes(this.$wrapperRecipes, filters, this.$wrapperRecipesCount);
+    const displayRecipe = new DisplayRecipes(this.$wrapperRecipes, filters, this.$wrapperRecipesCount, this.$wrapperErrorMsg);
     
     // Render and display all the recipes initially.
     displayRecipe.renderAll(recipes);

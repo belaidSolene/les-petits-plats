@@ -36,6 +36,7 @@ $font-sizes: (
   14: 14px,
   18: 18px,
   21: 21px,
+  32: 32px,
   44: 44px,
 );
 
@@ -44,4 +45,96 @@ $font-sizes: (
   background-color: $primary
 }
 
+
 @import "node_modules/bootstrap/scss/bootstrap.scss";
+
+.header {
+  height: 300px;
+
+  @include media-breakpoint-up(md) {
+    height: 65vh;
+    min-height: 344px;
+    max-height: 400px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    min-height: 500px;
+    max-height: 665px;
+  }
+}
+
+.logo-width {
+  width: 150px; 
+
+  @include media-breakpoint-up(md) {
+    width: 200px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    width: 100%;
+  }
+}
+
+.fs-title {
+  font-size: 21px;
+  line-height: 1.4;
+  
+  @include media-breakpoint-up(md) {
+    font-size: 32px;
+    line-height: 1.3;
+
+  }
+  
+  @include media-breakpoint-up(lg) {
+    font-size: 44px;
+    line-height: 1.2;
+
+  }
+}
+
+.fs-input {
+  font-size: 12px;
+  
+  @include media-breakpoint-up(md) {
+    font-size: 1rem;
+  }
+}
+
+.fs-filter {
+  font-size: 12px;
+
+  @include media-breakpoint-up(md) {
+    font-size: 1rem;
+  }
+}
+
+.fs-recipesCount {
+  font-size: 18px;
+  
+  @include media-breakpoint-up(md) {
+    font-size: 21px;
+  }
+}
+
+.tag-height {
+  height: 2.2rem; 
+
+  @include media-breakpoint-up(md) {
+    height:  3.13rem;
+  }
+}
+
+.recipe-size {
+  width: 90vw;
+  height: 45.69rem;
+  
+  @include media-breakpoint-up(md) {
+    width: 40vw;
+    max-width: 340px;
+  }
+  
+  @include media-breakpoint-up(lg) {
+    width: 27vw;
+    max-width: 380px;
+  }
+}

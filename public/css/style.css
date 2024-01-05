@@ -7666,6 +7666,10 @@ textarea.form-control-lg {
   font-size: calc(1.25625rem + 0.075vw) !important;
 }
 
+.fs-32 {
+  font-size: calc(1.325rem + 0.9vw) !important;
+}
+
 .fs-44 {
   font-size: calc(1.4rem + 1.8vw) !important;
 }
@@ -10541,6 +10545,9 @@ textarea.form-control-lg {
   .fs-21 {
     font-size: 1.3125rem !important;
   }
+  .fs-32 {
+    font-size: 2rem !important;
+  }
   .fs-44 {
     font-size: 2.75rem !important;
   }
@@ -10575,6 +10582,106 @@ textarea.form-control-lg {
   }
   .d-print-none {
     display: none !important;
+  }
+}
+.header {
+  height: 300px;
+}
+@media (min-width: 768px) {
+  .header {
+    height: 65vh;
+    min-height: 344px;
+    max-height: 400px;
+  }
+}
+@media (min-width: 992px) {
+  .header {
+    min-height: 500px;
+    max-height: 665px;
+  }
+}
+
+.logo-width {
+  width: 150px;
+}
+@media (min-width: 768px) {
+  .logo-width {
+    width: 200px;
+  }
+}
+@media (min-width: 992px) {
+  .logo-width {
+    width: 100%;
+  }
+}
+
+.fs-title {
+  font-size: 21px;
+  line-height: 1.4;
+}
+@media (min-width: 768px) {
+  .fs-title {
+    font-size: 32px;
+    line-height: 1.3;
+  }
+}
+@media (min-width: 992px) {
+  .fs-title {
+    font-size: 44px;
+    line-height: 1.2;
+  }
+}
+
+.fs-input {
+  font-size: 12px;
+}
+@media (min-width: 768px) {
+  .fs-input {
+    font-size: 1rem;
+  }
+}
+
+.fs-filter {
+  font-size: 12px;
+}
+@media (min-width: 768px) {
+  .fs-filter {
+    font-size: 1rem;
+  }
+}
+
+.fs-recipesCount {
+  font-size: 18px;
+}
+@media (min-width: 768px) {
+  .fs-recipesCount {
+    font-size: 21px;
+  }
+}
+
+.tag-height {
+  height: 2.2rem;
+}
+@media (min-width: 768px) {
+  .tag-height {
+    height: 3.13rem;
+  }
+}
+
+.recipe-size {
+  width: 90vw;
+  height: 45.69rem;
+}
+@media (min-width: 768px) {
+  .recipe-size {
+    width: 40vw;
+    max-width: 340px;
+  }
+}
+@media (min-width: 992px) {
+  .recipe-size {
+    width: 27vw;
+    max-width: 380px;
   }
 }
 
