@@ -148,14 +148,17 @@ class SearchRecipes extends StringUtils {
   _updateDisplayRecipes() {
     this._displayRecipes.reset();
 
-    const ids = this._resultFilterSearch.length > 0
+    if (this._resultMainSearch.length === 0) {
+      this._displayRecipes.updateErrorMsg(this._searchValue);
+    } else {
+      const ids = this._resultFilterSearch.length > 0
       ? this._resultMainSearch.filter((value) => this._resultFilterSearch.includes(value))
       : this._resultMainSearch;
 
-    ids.forEach(idRecipe => {
-      this._displayRecipes.render(this._allRecipes.get(idRecipe));
-    })
-
+      ids.forEach(idRecipe => {
+        this._displayRecipes.render(this._allRecipes.get(idRecipe));
+      })
+    }
     this._displayRecipes.finishRender();
   }
 
