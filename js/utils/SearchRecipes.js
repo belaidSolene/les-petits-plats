@@ -9,7 +9,7 @@ class SearchRecipes extends StringUtils {
    * @param {Map} recipes - A map containing all the available recipes, with IDs as keys.
    */
   constructor(recipesIndex, recipes) {
-    super()
+    super();
     this._allRecipes = recipes;
     this._recipesIndex = recipesIndex;
     this._resultFilterSearch = [];
