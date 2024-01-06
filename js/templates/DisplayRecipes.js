@@ -20,7 +20,7 @@ class DisplayRecipes {
    * Render recipes on the index.html page and update the filter options.
    * @param {Map} recipes - A collection of Recipe objects to be displayed.
    */
-    renderAll(recipes) {
+  renderAll(recipes) {
     this.reset();
 
     recipes.forEach((recipe) => {
@@ -43,10 +43,22 @@ class DisplayRecipes {
     this._updateFilters(recipe);
   }
 
+
+  /**
+   * Reset the displayed recipes and filter options.
+   * 
+   */
+  reset() {
+    this._$wrapperRecipes.innerHTML = "";
+    this._recipesCount = 0;
+    this._filtersData = this._initializeFilters();
+    this.updateErrorMsg()
+  }
+
   /**
    * Update the filter data based on the provided recipe and active filters.
    * 
-   **/
+   */
   finishRender() {
     // Add a ghost element to fix layout issues
     const ghost = document.createElement('article');
@@ -58,25 +70,6 @@ class DisplayRecipes {
   }
 
   /**
-   * Display an error message when no recipes match the search criteria.
-   * 
-   */
-  updateErrorMsg(searchTerm="") {
-    this._$wrapperErrorMsg.textContent = searchTerm === "" ?  "" :`Aucun recette ne correspond à ${searchTerm}... vous pouvez chercher « tarte aux pommes », « poisson », etc.`;
-  }
-
-  /**
-   * Reset the content of the recipes wrapper element.
-   * 
-   */
-  reset() {
-    this._$wrapperRecipes.innerHTML = "";
-    this._recipesCount = 0;
-    this._filtersData = this._initializeFilters();
-    this.updateErrorMsg()
-  }
-
-  /**
    * Update the displayed count of recipes.
    * @param {number} recipesCount - The total count of recipes.
    * @private
@@ -84,6 +77,15 @@ class DisplayRecipes {
   _updateRecipesCount() {
     this._$wrapperRecipesCount.innerHTML = `${this._recipesCount < 10 ? `0${this._recipesCount}` : `${this._recipesCount}`} ${this._recipesCount > 0 ? "recettes" : "recette"}`;
   }
+
+  /**
+   * Display an error message when no recipes match the search criteria.
+   * 
+   */
+  updateErrorMsg(searchTerm="") {
+    this._$wrapperErrorMsg.textContent = searchTerm === "" ?  "" :`Aucun recette ne correspond à ${searchTerm}... vous pouvez chercher « tarte aux pommes », « poisson », etc.`;
+  }
+
 
   /**
    * Initialize the filters data to an empty state.

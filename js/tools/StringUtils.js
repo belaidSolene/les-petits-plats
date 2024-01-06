@@ -25,5 +25,5 @@ class StringUtils {
         if (regex.test(input)) {
           throw new Error("L'insertion de balises HTML est interdite.");
         }
-      }
+    }
 }
