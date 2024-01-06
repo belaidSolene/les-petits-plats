@@ -9,7 +9,7 @@ class SearchRecipes extends StringUtils {
    * @param {Map} recipes - A map containing all the available recipes, with IDs as keys.
    */
   constructor(recipesIndex, recipes) {
-    super()
+    super();
     this._allRecipes = recipes;
     this._recipesIndex = recipesIndex;
     this._resultFilterSearch = [];
@@ -71,15 +71,15 @@ class SearchRecipes extends StringUtils {
 
     this._displayRecipes.reset();
 
-    this._allRecipes.forEach(recipe => {
+    for (const [recipeId, recipe] of this._allRecipes) {
       if (this._doesRecipeMatchSearchTerm(recipe, normalizedSearch)) {
-        recipesFound.push(recipe.id);
-        if (this._isRecipeMatchingMainSearchAndFilter(recipe.id)) {
+        recipesFound.push(recipeId);
+        if (this._isRecipeMatchingMainSearchAndFilter(recipeId)) {
           if (notFound) { notFound = false; }
           this._displayRecipes.render(recipe);
         }
       }
-    });
+    }
 
     if (notFound) {
       this._displayRecipes.updateErrorMsg(this._searchValue);
@@ -97,14 +97,38 @@ class SearchRecipes extends StringUtils {
    * @returns {boolean} - True if the recipe matches the search term, false otherwise.
    * @private
    */
-  _doesRecipeMatchSearchTerm({normalizeDescription, ingredients, normalizeName}, searchTerm) {
-    return (
-      normalizeName.includes(searchTerm) ||
-      normalizeDescription.includes(searchTerm) ||
-      ingredients.some((ingredient) =>
-        ingredient.normalizeName.includes(searchTerm)
-      )
-    );
+  _doesRecipeMatchSearchTerm({ normalizeDescription, ingredients, normalizeName }, searchTerm) {
+    const checkMatch = (str, searchTerm) => {
+    for (let i = 0; i <= str.length - searchTerm.length; i++) {
+      let match = true;
+      for (let j = 0; j < searchTerm.length; j++) {
+        if (str[i + j] !== searchTerm[j]) {
+          match = false;
+          break;
+        }
+      }
+      if (match) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  if (checkMatch(normalizeName, searchTerm)) {
+    return true;
+  }
+
+  if (checkMatch(normalizeDescription, searchTerm)) {
+    return true;
+  }
+
+  for (const ingredient of ingredients) {
+    if (checkMatch(ingredient, searchTerm)) {
+      return true;
+    }
+  }
+
+  return false;
   }
 
   /**
@@ -114,8 +138,17 @@ class SearchRecipes extends StringUtils {
    * @private
    */
   _isRecipeMatchingMainSearchAndFilter(idRecipe) {
-    return this._resultFilterSearch.length > 0
-      ? this._resultFilterSearch.includes(idRecipe) : true;
+    if (this._resultFilterSearch.length > 0) {
+      for (let i = 0; i < this._resultFilterSearch.length; i++) {
+        if (this._resultFilterSearch[i] === idRecipe) {
+          return true;
+        }
+      }
+    } else {
+      return true;
+    }
+    
+    return false;
   }
 
   /**
@@ -148,14 +181,24 @@ class SearchRecipes extends StringUtils {
   _updateDisplayRecipes() {
     this._displayRecipes.reset();
 
-    const ids = this._resultFilterSearch.length > 0
-      ? this._resultMainSearch.filter((value) => this._resultFilterSearch.includes(value))
-      : this._resultMainSearch;
+    if (this._resultMainSearch.length === 0) {
+      this._displayRecipes.updateErrorMsg(this._searchValue);
+    } else {
+      let ids = [];
+      for (let i = 0; i < this._resultMainSearch.length; i++) {
+        const value = this._resultMainSearch[i];
+        if (this._resultFilterSearch.includes(value)) {
+          ids.push(value);
+        }
+      }
 
-    ids.forEach(idRecipe => {
-      this._displayRecipes.render(this._allRecipes.get(idRecipe));
-    })
+      ids = ids.length === 0 ? this._resultMainSearch : ids
 
+      for (let i = 0; i < ids.length; i++) {
+        const idRecipe = ids[i];
+        this._displayRecipes.render(this._allRecipes.get(idRecipe));
+      }
+    }
     this._displayRecipes.finishRender();
   }
 
@@ -166,12 +209,22 @@ class SearchRecipes extends StringUtils {
    */
   _recipeIdsMatchingFilters() {
     let commonIds = [];
-
-    this._displayRecipes.activeFilters.forEach((filterType, filter) => {
+  
+    for (const [filter, filterType] of this._displayRecipes.activeFilters) {
       const ids = this._recipesIndex[filterType][this.normalizeString(filter)];
-      commonIds = commonIds.length === 0 ? ids : commonIds.filter(id => ids.includes(id));
-    });
-
+      if (commonIds.length === 0) {
+        commonIds = ids;
+      } else {
+        const newCommonIds = [];
+        for (const id of commonIds) {
+          if (ids.includes(id)) {
+            newCommonIds.push(id);
+          }
+        }
+        commonIds = newCommonIds;
+      }
+    }
+  
     return commonIds;
   }
 }
