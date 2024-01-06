@@ -9,7 +9,7 @@ class SearchRecipes extends StringUtils {
    * @param {Map} recipes - A map containing all the available recipes, with IDs as keys.
    */
   constructor(recipesIndex, recipes) {
-    super()
+    super();
     this._allRecipes = recipes;
     this._recipesIndex = recipesIndex;
     this._resultFilterSearch = [];
@@ -71,10 +71,10 @@ class SearchRecipes extends StringUtils {
 
     this._displayRecipes.reset();
 
-    this._allRecipes.forEach(recipe => {
+    this._allRecipes.forEach((recipe, key) => {
       if (this._doesRecipeMatchSearchTerm(recipe, normalizedSearch)) {
-        recipesFound.push(recipe.id);
-        if (this._isRecipeMatchingMainSearchAndFilter(recipe.id)) {
+        recipesFound.push(key);
+        if (this._isRecipeMatchingMainSearchAndFilter(key)) {
           if (notFound) { notFound = false; }
           this._displayRecipes.render(recipe);
         }
