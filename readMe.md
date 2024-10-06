@@ -12,6 +12,7 @@ This project is part of the OpenClassrooms program *'Développeur d'application 
 - [Algorithm Design](#algorithm-design)
 - [Tools & Technologies](#tools-&-technologies)
 - [Installation](#installation)
+- [Live Demo](#live-demo)
 - [Future Improvements](#future-improvements)
 
 ## Project Overview
@@ -29,7 +30,6 @@ The goal of this project is to build a fast and efficient recipe search feature 
 The logic behind the search and filter functionalities is illustrated in the file **algorigrams.drawio**, which contains diagrams detailing the step-by-step process of the search algorithm. These diagrams serve as a guide to better understand the flow of the algorithm and the interactions between various components of the system.
 
 
-
 ## Tools & Technologies
 
 - Front-end Framework: Bootstrap (CSS only)
@@ -45,6 +45,10 @@ git clone https://github.com/belaidSolene/les-petits-plats.git
 ```
 
 2. Open the index.html file in your browser to view the site.
+
+## Live Demo
+
+You can view a live demo of the project [here](https://belaidsolene.github.io/les-petits-plats/).
 
 ## Future Improvements
 
